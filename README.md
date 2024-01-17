@@ -1,5 +1,5 @@
 <p align="center">
-    <img src=https://cos.llsyyds.com/weblogo/kylin.png width=688 height="688"/>
+    <img src=https://cos.llsyyds.com/weblogo/kylin.png width=988 height="688"/>
 </p>
 
 <h1 align="center">Yi-API-SDK</h1>
