@@ -19,6 +19,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.annotation.Resource;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,11 +48,10 @@ public abstract class BaseService implements ApiService {
      * @throws ApiException 业务异常
      */
     public void checkConfig(YiApiClient qiApiClient) throws ApiException {
-        if (qiApiClient == null && this.getQiApiClient() == null) {
-            throw new ApiException(ErrorCode.NO_AUTH_ERROR, "请先配置密钥AccessKey/SecretKey");
-        }
         if (qiApiClient != null && !StringUtils.isAnyBlank(qiApiClient.getAccessKey(), qiApiClient.getSecretKey())) {
             this.setQiApiClient(qiApiClient);
+        }else {
+            throw new ApiException(ErrorCode.NO_AUTH_ERROR,"请先配置密钥AccessKey/SecretKey");
         }
     }
 
@@ -75,9 +77,9 @@ public abstract class BaseService implements ApiService {
      * @return {@link HttpResponse}
      * @throws ApiException 业务异常
      */
-    private <O, T extends ResultResponse> HttpRequest getHttpRequestByRequestMethod(BaseRequest<O, T> request) throws ApiException {
+    private <O, T extends ResultResponse> HttpRequest getHttpRequestByRequestMethod(BaseRequest<O, T> request) throws ApiException, MalformedURLException {
         if (ObjectUtils.isEmpty(request)) {
-            throw new ApiException(ErrorCode.OPERATION_ERROR, "请求参数错误");
+            throw new ApiException(ErrorCode.OPERATION_ERROR, "request不允许为空");
         }
         String path = request.getPath().trim();
         String method = request.getMethod().trim().toUpperCase();
@@ -89,9 +91,18 @@ public abstract class BaseService implements ApiService {
             throw new ApiException(ErrorCode.OPERATION_ERROR, "请求路径不存在");
         }
 
+        if (path.startsWith("http://") || path.startsWith("https://")) {
+            URL url = new URL(path);
+            String protocolHostPort = url.getProtocol() + "://" + url.getHost() + (url.getPort() != -1 ? ":" + url.getPort() : "");
+            path = path.replace(protocolHostPort, gatewayHost);
+        }
         if (path.startsWith(gatewayHost)) {
             path = path.substring(gatewayHost.length());
         }
+        if (!path.startsWith("/api")) {
+            path = "/api" + path;
+        }
+
         log.info("请求方法：{}，请求路径：{}，请求参数：{}", method, path, request.getRequestParams());
         HttpRequest httpRequest;
         switch (method) {
@@ -131,11 +142,7 @@ public abstract class BaseService implements ApiService {
         HttpResponse httpResponse = doRequest(request);
         String body = httpResponse.body();
         Map<String, Object> data = new HashMap<>();
-        if (httpResponse.getStatus() != 200) {
-            ErrorResponse errorResponse = JSONUtil.toBean(body, ErrorResponse.class);
-            data.put("errorMessage", errorResponse.getMessage());
-            data.put("code", errorResponse.getCode());
-        } else {
+        if (httpResponse.getStatus() == 200) {
             try {
                 // 尝试解析为JSON对象
                 data = new Gson().fromJson(body, new TypeToken<Map<String, Object>>() {
@@ -144,6 +151,10 @@ public abstract class BaseService implements ApiService {
                 // 解析失败，将body作为普通字符串处理
                 data.put("value", body);
             }
+        } else {
+            ErrorResponse errorResponse = JSONUtil.toBean(body, ErrorResponse.class);
+            data.put("errorMessage", errorResponse.getMessage());
+            data.put("code", errorResponse.getCode());
         }
         rsp.setData(data);
         return rsp;

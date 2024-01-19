@@ -6,7 +6,6 @@ import lls.yihang.yiapisdk.model.response.LoveResponse;
 import lls.yihang.yiapisdk.model.response.PoisonousChickenSoupResponse;
 import lls.yihang.yiapisdk.model.response.RandomWallpaperResponse;
 import lls.yihang.yiapisdk.model.response.ResultResponse;
-import lls.yihang.yiapisdk.service.ApiService;
 import lls.yihang.yiapisdk.service.BaseService;
 import lls.yihang.yiapisdk.model.request.*;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
  * @DATE: 2024/1/17 20:38
  */
 @Slf4j
-public class ApiServiceImpl extends BaseService implements ApiService {
+public class ApiServiceImpl extends BaseService {
 
     @Override
     public PoisonousChickenSoupResponse getPoisonousChickenSoup() throws ApiException {
