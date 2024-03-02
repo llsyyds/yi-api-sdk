@@ -28,12 +28,6 @@ yiapisdk
     └─utils
 ```
 
-### 导航 🧭
-
-- **[Qi-API 接口开放平台 🔗](https://api.qimuu.icu/)**
-- **[Qi-API-DOC 开发者文档 📖](https://doc.qimuu.icu/)**
-- **[Qi-API-SDK-demo ✔️](https://github.com/qimu666/qi-api-sdk-demo/blob/master/src/main/java/icu/qimuu/qiapisdkdemo/controller/InvokeController.java)**
-
 ###  快速开始 🚀
 
 **要开始使用 Yi-API-SDK，您需要按照以下简单进行操作:**
@@ -42,13 +36,13 @@ yiapisdk
 
 ```xml
 <dependency>
-   <groupId>icu.qimuu</groupId>
-   <artifactId>qi-api-sdk</artifactId>
+   <groupId>lls.yihang</groupId>
+   <artifactId>yi-api-sdk</artifactId>
    <version>0.0.4</version>
 </dependency>   
 ```
 
-**可以搭配[EasyWeb](https://github.com/qimu666/EasyWeb)依赖快速启动Web项目**
+**可以搭配如下依赖快速启动Web项目**
 
 ```xml
   <dependency>
@@ -58,16 +52,16 @@ yiapisdk
   </dependency>
 ```
 
-#### 2. 前往[Qi-API 接口开放平台](https://api.qimuu.icu/) 获取开发者密钥对
+#### 2. 前往平台个人本中心获取开发者密钥对
 
-#### 3. 初始化客户端QiApiClient对象
+#### 3. 初始化客户端YiApiClient对象
 
 - 方法 1 ：主动实例化客户端
 
   ```java
   String accessKey = "你的 accessKey";
   String secretKey = "你的 secretKey";
-  QiApiClient client = new QiApiClient(accessKey, secretKey);
+  YiApiClient client = new YiApiClient(accessKey, secretKey);
   ```
 
 - 方法 2 ：通过配置文件注入对象
@@ -75,8 +69,8 @@ yiapisdk
   - yml
 
     ```yml
-    # Qi-API 配置
-    qi:
+    # Yi-API 配置
+    yi:
       api:
         client:
           access-key: 你的 accessKey
@@ -88,8 +82,8 @@ yiapisdk
   - properties
   
     ```properties
-    qi.api.client.access-key=你的 accessKey
-    qi.api.client.secret-key=你的 secretKey
+    yi.api.client.access-key=你的 accessKey
+    yi.api.client.secret-key=你的 secretKey
     ```
 
 #### 4. 使用API服务
@@ -117,7 +111,7 @@ try {
 - 示例二 ：主动注入
 ```java
 try {
-    QiApiClient qiApiClient = new QiApiClient("你的 accessKey", "你的 secretKey");
+    YiApiClient qiApiClient = new YiApiClient("你的 accessKey", "你的 secretKey");
     PoisonousChickenSoupResponse poisonousChickenSoup = apiService.getPoisonousChickenSoup(qiApiClient);
     System.out.println("poisonousChickenSoup = " + poisonousChickenSoup);
 } catch (ApiException e) {
@@ -133,7 +127,7 @@ try {
 }
 ```
 
-**搭配[EasyWeb](https://github.com/qimu666/EasyWeb)示例：推荐👍**
+**搭配EasyWeb依赖：推荐👍**
 
 ```java
 @GetMapping("/getPoisonousChickenSoup")
@@ -159,15 +153,3 @@ public BaseResponse<PoisonousChickenSoupResponse> getPoisonousChickenSoup() {
   "message": "ok"
 }
 ```
-- **更多示例详见：[Qi-API-SDK-Demo 示例项目](https://github.com/qimu666/qi-api-sdk-demo/blob/master/src/main/java/icu/qimuu/qiapisdkdemo/controller/InvokeController.java)**
-- **更多接口详见：[Qi-API-DOC 开发者文档](https://doc.qimuu.icu/)**
-
-### 贡献 🤝
-
-如果您想为 **[Qi-API 接口开放平台](https://api.qimuu.icu/)**  做出贡献，请随时提交拉取请求。我们始终在寻找方法来改进项目，使其对像您这样的开发者更有用。
-
-### 联系我们 📩
-
-如果您对 **[Qi-API 接口开放平台](https://api.qimuu.icu/)**  平台有任何问题或建议，请随时联系我们:📩邮箱：2483482026@qq.com。
-
-感谢您使用 **[Qi-API 接口开放平台](https://api.qimuu.icu/)**  ！ 😊
