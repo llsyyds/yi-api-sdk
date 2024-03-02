@@ -5,12 +5,7 @@
 <h1 align="center">Yi-API-SDK</h1>
 <p align="center"><strong>Yi-API 接口开放平台开发者工具包</strong></p>
 
-<div align="center">
-    <img alt="Maven" src="https://raster.shields.io/badge/Maven-3.8.1-red.svg"/>
-   <img alt="SpringBoot" src="https://raster.shields.io/badge/SpringBoot-2.7+-green.svg"/>
-  <a href="https://github.com/llsyyds/yi-api-sdk" target="_blank"><img src='https://img.shields.io/github/forks/qimu666/qi-api-sdk' alt='GitHub forks' class="no-zoom"></a>
-  <a href="https://github.com/llsyyds/yi-api-sdk" target="_blank"><img src='https://img.shields.io/github/stars/qimu666/qi-api-sdk' alt='GitHub stars' class="no-zoom"></a>
-</div>
+
 ### 目录结构 📝
 
 ```text
@@ -111,7 +106,7 @@ try {
 - 示例二 ：主动注入
 ```java
 try {
-    YiApiClient qiApiClient = new YiApiClient("你的 accessKey", "你的 secretKey");
+    YiApiClient yiApiClient = new YiApiClient("你的 accessKey", "你的 secretKey");
     PoisonousChickenSoupResponse poisonousChickenSoup = apiService.getPoisonousChickenSoup(qiApiClient);
     System.out.println("poisonousChickenSoup = " + poisonousChickenSoup);
 } catch (ApiException e) {
